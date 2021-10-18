@@ -4,6 +4,7 @@ from scapy.all import *
 import threading
 import time
 import ipaddress
+import sys
 
 def multiple_hosts():								#Used to scan network based on CIDR notation
 	count=0
@@ -34,6 +35,10 @@ conf.verb=0
 ip=sys.argv[1]
 dummy=[]
 
+if not os.geteuid() == 0:
+    print color("[!] ARP-ping must be run as root.")
+    sys.exit(-1)
+	
 if '/' in ip:
 	print("Scanning the network.....\n")
 	hosts=ipaddress.ip_network(ip)
